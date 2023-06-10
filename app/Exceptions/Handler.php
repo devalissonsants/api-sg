@@ -18,13 +18,22 @@ class Handler extends ExceptionHandler
         'password_confirmation',
     ];
 
-    /**
-     * Register the exception handling callbacks for the application.
-     */
-    public function register(): void
+    public function register()
     {
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    public function render($request, Throwable $exception)
+    {
+        if ($exception instanceof \Illuminate\Database\Eloquent\ModelNotFoundException) {
+            return response($exception->getMessage(), 404);
+        } elseif ($exception instanceof \Illuminate\Auth\AuthenticationException){
+            return response($exception->getMessage(), 401);
+        }elseif ($exception instanceof \Exception && !($exception instanceof \Illuminate\Validation\ValidationException)){
+            return response($exception->getMessage(), 500);
+        }
+        return parent::render($request, $exception);
     }
 }

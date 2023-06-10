@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class CompanyController extends Controller
 {
-    private $with = ['city'];
+    private $with = ['state.city'];
     private $model;
 
     public function __construct(Company $model)
