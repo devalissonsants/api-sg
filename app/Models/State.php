@@ -10,27 +10,10 @@ use Spatie\Activitylog\Models\Activity;
 
 class State extends Model
 {
-    // Logs
-    use LogsActivity;
-    protected static $logAttributes = ['country', '*'];
-    protected static $logName = 'states';
-    protected $hidden = ['country_id'];
-    public function tapActivity(Activity $activity, string $eventName)
-    {
-        $user = auth()->user();
-        $activity->causer_id = $user->id;
-        $activity->causer_object = $user;
-    }
-
     use softDeletes;
     protected $fillable = ['title', 'country_id','uf'];
     protected $table='states';
     protected $appends = ['linked_cities'];
-
-    public function getLinkedCitiesAttribute()
-    {
-        return $this->hasMany(City::class, 'states_id', 'id')->count();
-    }
 
     public function cities(){
         return $this->hasMany(City::class, 'states_id', 'id');
