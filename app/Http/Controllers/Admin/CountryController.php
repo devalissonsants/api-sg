@@ -1,17 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\State;
+use App\Http\Controllers\Utils;
+use App\Models\Country;
 use Illuminate\Http\Request;
 
-class StateController extends Controller
+class CountryController extends Controller
 {
-    private $with = ['country'];
+    private $with = [];
     private $model;
 
-    public function __construct(State $model)
+    public function __construct(Country $model)
     {
         $this->model = $model;
     }

@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\CityController;
-use App\Http\Controllers\CompanyController;
-use App\Http\Controllers\CountryController;
-use App\Http\Controllers\StateController;
+use App\Http\Controllers\Demand\DemandController;
+use App\Http\Controllers\Admin\CityController;
+use App\Http\Controllers\Admin\CompanyController;
+use App\Http\Controllers\Admin\CountryController;
+use App\Http\Controllers\AdminStateController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -43,5 +44,15 @@ Route::prefix('admin')->group(function () {
         Route::post('/', [CountryController::class, 'store']);
         Route::put('/{id}', [CountryController::class, 'update']);
         Route::delete('/{id}', [CountryController::class, 'destroy']);
+    });
+});
+
+Route::prefix('{company}')->middleware(['added.company.id'])->group(function () {
+    Route::prefix('demand')->group(function () {
+        Route::get('/', [DemandController::class, 'index']);
+        Route::get('/{id}', [DemandController::class, 'show']);
+        Route::post('/', [DemandController::class, 'store']);
+        Route::put('/{id}', [DemandController::class, 'update']);
+        Route::delete('/{id}', [DemandController::class, 'destroy']);
     });
 });
